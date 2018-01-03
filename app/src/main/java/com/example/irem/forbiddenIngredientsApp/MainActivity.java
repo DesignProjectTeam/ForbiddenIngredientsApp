@@ -12,7 +12,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        askForPermission(Manifest.permission.CAMERA,CAMERA);
+        askForPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE,WRITE_EXST);
+        askForPermission(Manifest.permission.READ_EXTERNAL_STORAGE,READ_EXST);
         Button  btn=(Button)findViewById(R.id.open_camera);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,6 +46,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+        private void askForPermission(String permission, Integer requestCode) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, permission)) {
+
+                //This is called if user has denied the permission before
+                //In this case I am just asking the permission again
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+
+            } else {
+
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{permission}, requestCode);
+            }
+        } else {
+            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
